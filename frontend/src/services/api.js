@@ -6,7 +6,7 @@ const BACKEND_URL = (import.meta && import.meta.env && (import.meta.env.VITE_BAC
 export async function fetchSales(params = {}) {
   try {
     // prefer backend API; fallback to static sample if backend unavailable
-    const apiUrl = `http://localhost:4000/api/sales`
+    const apiUrl = `https://sales-management-sytem-true-state.vercel.app/api/sales`
     const res = await axios.get(apiUrl, { params })
     const d = res.data
     // Normalize backend shape: server returns { results, total, page, pageSize }
@@ -35,7 +35,7 @@ export async function fetchSales(params = {}) {
 
 export async function fetchSalesOptions() {
   try {
-    const apiUrl = `http://localhost:4000/api/sales/options`
+    const apiUrl = `https://sales-management-sytem-true-state.vercel.app/api/sales/options`
     const res = await axios.get(apiUrl)
     return res.data
   } catch (err) {
