@@ -20,10 +20,10 @@ export default function FiltersBar({ allData = [], options: opts = null, value =
     const categories = new Set()
     const tags = new Set()
     allData.forEach((r) => {
-      if (r['Customer Region']) regions.add(r['Customer Region'])
-      if (r['Gender']) genders.add(r['Gender'])
-      if (r['Payment Method']) payments.add(r['Payment Method'])
-      if (r['Product Category']) categories.add(r['Product Category'])
+      if (r['Customer Region'] || r.customer_region) regions.add(r['Customer Region'] || r.customer_region)
+      if (r['Gender'] || r.gender) genders.add(r['Gender'] || r.gender)
+      if (r['Payment Method'] || r.payment_method) payments.add(r['Payment Method'] || r.payment_method)
+      if (r['Product Category'] || r.product_category) categories.add(r['Product Category'] || r.product_category)
       if (r.Tags) {
         const tlist = Array.isArray(r.Tags) ? r.Tags : r.Tags.toString().split(/[,;|]/)
         tlist.forEach((t) => { if (t) tags.add(t.toString().trim()) })

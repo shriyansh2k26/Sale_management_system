@@ -40,6 +40,34 @@ export async function fetchSalesOptions() {
     return res.data
   } catch (err) {
     console.warn('fetchSalesOptions failed', err.message)
-    return { customer_region: [], gender: [], payment_method: [], product_category: [], tags: [] }
+    try {
+      const res2 = await axios.get('/sales_sample.json')
+      const data = res2.data || []
+      const regions = new Set()
+      const genders = new Set()
+      const payments = new Set()
+      const categories = new Set()
+      const tags = new Set()
+      data.forEach((r) => {
+        if (r['Customer Region']) regions.add(r['Customer Region'])
+        if (r['Gender']) genders.add(r['Gender'])
+        if (r['Payment Method']) payments.add(r['Payment Method'])
+        if (r['Product Category']) categories.add(r['Product Category'])
+        if (r.Tags) {
+          const tlist = Array.isArray(r.Tags) ? r.Tags : r.Tags.toString().split(/[,;|]/)
+          tlist.forEach((t) => { if (t) tags.add(t.toString().trim()) })
+        }
+      })
+      return {
+        customer_region: Array.from(regions),
+        gender: Array.from(genders),
+        payment_method: Array.from(payments),
+        product_category: Array.from(categories),
+        tags: Array.from(tags)
+      }
+    } catch (err2) {
+      console.error('fetchSalesOptions fallback failed', err2)
+      return { customer_region: [], gender: [], payment_method: [], product_category: [], tags: [] }
+    }
   }
 }
